@@ -130,3 +130,4 @@ dmypy.json
 
 data/
 src/credentials.py
+.DS_Store

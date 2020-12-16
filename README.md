@@ -3,6 +3,8 @@
 **Author**: Griffin Hundley
 ***
 
+![](images/twitch-generic-email-1-1-1-1.jpg)
+
 ## Overview
 
 Twitch is a social platform for livestreaming video games, music, art, and more.  For most people making content on the platform, livestreaming started out as a hobby for people sharing their love of gaming - something they do only because its fun.  For a select few who build a strong community and gain a larger audience, they can turn their channel into a primary source of income by becoming a partner with Twitch.
@@ -14,6 +16,10 @@ As of February 2020, there are 3.8 million unique broadcasters on the website, w
 ***
 
 ## Business Problem
+
+![](images/twitch-average-monthly-broadcasters.png)
+
+Source: Mansoor Iqbal https://www.businessofapps.com/data/twitch-statistics/
 
 Livestreaming is emerging as a premiere online industry, with significant growth over the years.  As of December 2020, the effects of COVID are still being realized, however there are reports of 24-50% increase in Twitch viewership as a result of the pandemic lockdowns.
 
