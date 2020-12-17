@@ -118,26 +118,23 @@ Questions to consider:
 * What else could you do in the future to improve this project?
 ***
 
-## For More Information
+## Contact Information
 
-Please review our full analysis in [our Jupyter Notebook](./dsc-phase1-project-template.ipynb) or our [presentation](./DS_Project_Presentation.pdf).
+Griffin Hundley
+Email: hundlegq@dukes.jmu.edu
+Github: github.com/griffinhundley
+Linkedin: linkedin.com/in/griffin-hundley-61b020118/
 
-For any additional questions, please contact **name & email, name & email**
 
 ## Repository Structure
 
-Describe the structure of your repository and its contents, for example:
-
 ```
-├── __init__.py                         <- .py file that signals to python these folders contain packages
 ├── README.md                           <- The top-level README for reviewers of this project
-├── dsc-phase1-project-template.ipynb   <- Narrative documentation of analysis in Jupyter notebook
-├── DS_Project_Presentation.pdf         <- PDF version of project presentation
-├── code
+├── notebooks                           <- Narrative documentation of analysis in Jupyter notebook
+├── src
 │   ├── __init__.py                     <- .py file that signals to python these folders contain packages
-│   ├── visualizations.py               <- .py script to create finalized versions of visuals for project
-│   ├── data_preparation.py             <- .py script used to pre-process and clean data
-│   └── eda_notebook.ipynb              <- Notebook containing data exploration
-├── data                                <- Both sourced externally and generated from code
-└── images                              <- Both sourced externally and generated from code
+│   ├── modeling.py                     <- .py code used in the modeling process
+│   └── scraping.py                     <- .py code used to obtain data from Twitch API and other sources
+├── data                                <- Sourced from Twitch API and Twitchtracker
+└── images                              <- Sourced externally and generated from code
 ```
