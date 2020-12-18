@@ -93,30 +93,24 @@ Questions to consider:
 ***
 
 ## Results
+![](./images/model_4_performance.png)
 
-Present your key results. For Phase 1, this will be findings from your descriptive analysis.
+In the figures above, this model performs the best of all the iterations. The reduction in complexity, as well as the dropout regularization, has the model consistently perform better on the validation set than on the training set indicating high generalizability. Additionally, the extreme amounts of fluctuations over epochs seems to have been smoothed out considerably.
 
-***
-Questions to consider:
-* How do you interpret the results?
-* How confident are you that your results would generalize beyond the data you have?
-***
-
-Here is an example of how to embed images from your sub-folder:
-
-### Visual 1
-![graph1](./images/viz1.png)
 
 ## Conclusions
 
-Provide your conclusions about the work you've done, including any limitations or next steps.
+This model performs very well at being selective. Although it suffers a bit with a 60% hit rate on partnered channels, because denied applications can reapply at a later point, its not a permanent decision, where in the reverse case, giving a stream partnership is usually permanent. Twitch currently approves ~5k partners per year. Assuming they accept 5% of applications that would mean they receieve 100K applications per year, spending 2-4 weeks reviewing each one. This model would greatly reduce the amount staff resources. In addition, because it is a model based on continuous data, it does not have the same personal biases that humans do, leading to a fairer assessment of partners.
 
-***
-Questions to consider:
-* What would you recommend the business do as a result of this work?
-* What are some reasons why your analysis might not fully solve the business problem?
-* What else could you do in the future to improve this project?
-***
+## Next Steps
+
+Moving forward I would like to address the assumptions made with the data. If I had access to Twitch's data that excludes artifical views, and can target historical data at the time of partnership, the model would likely be much more accurate at predicting the partner class.
+
+Additionally, expanding the amount of data collection is a logical next step. In this analysis only 4% of the total partners were included in the dataset.
+
+Twitch currently uses chat activity as an important metric when deciding partnership. Getting data on chat participation and activity would thus be a good next step to take.
+
+I didn't have time in this analysis to get data from Twitch on how many partnership applications they receive.
 
 ## Contact Information
 
@@ -131,7 +125,8 @@ Linkedin: linkedin.com/in/griffin-hundley-61b020118/
 ```
 ├── README.md                           <- The top-level README for reviewers of this project
 ├── notebooks                           <- Narrative documentation of analysis in Jupyter notebook
-├── src
+├── models.                             <- .h5 files that contain the iterations of the modeling process
+├── src                                 <- directory containing source code
 │   ├── __init__.py                     <- .py file that signals to python these folders contain packages
 │   ├── modeling.py                     <- .py code used in the modeling process
 │   └── scraping.py                     <- .py code used to obtain data from Twitch API and other sources
