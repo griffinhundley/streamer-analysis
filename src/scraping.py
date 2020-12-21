@@ -2,6 +2,8 @@ from src import credentials
 import requests, json, time
 from bs4 import BeautifulSoup
 ####################
+
+# Twitch API
 class TwApi:
     def __init__(self):
         self.client_id = credentials.client_id
@@ -95,9 +97,17 @@ class TwApi:
 #################################################################
 #################################################################
 
+# Scraping
+
 from fake_useragent import UserAgent
 ua = UserAgent()
 def scrape(user_names):
+    '''
+    This function receives a list of twitch.tv usernames as an argument and iterates through that list, making GET requests to twitchtracker.com/user/statistics.  
+    To reduce the traffic burden and simulate real traffic, delay times are added.  get_proxies() is used to generate a list of IP addresses which are randomly iterated through, as well as using randomized user agents, to confound antiscraping measures.  
+    Various error exceptions have been added such as 404, 403, access denied, and captcha needed.  When successful, saves the html file to the local machine.
+    Prints successes or failures, as well as the number of successes as a verbose measure to track progress, and prints the IP address of successful proxies.
+    '''
     url_base = 'https://twitchtracker.com/'
     i = 0
     proxies = get_proxies()
@@ -111,8 +121,10 @@ def scrape(user_names):
                     proxies = get_proxies()
                     proxy_rotator = cycle(proxies)
                     proxy = next(proxy_rotator)
+                    error_count = 0
                 if error_count > 5:
                     proxy = next(proxy_rotator)
+                    error_count = 0
                 real_user_agent = ua.random
                 headers = {'User-Agent': real_user_agent}
                 temp_soup = BeautifulSoup(
@@ -155,7 +167,11 @@ def scrape(user_names):
     
     
 def soup_parser(soup):
+    '''
+    Receives a BeautifulSoup html object from twitchtracker.com/user/statistics and parses that page to obtain relevant fields. returns a dictionary associating each key with its respective value.
+    '''
     try:
+        # List of labels for the fields being parsed
         dict_labels = [
             'Hours streamed',
             'Average viewers' ,
@@ -185,21 +201,33 @@ import requests
 from bs4 import BeautifulSoup
 from itertools import cycle
 def get_proxies():
+    '''
+    This function makes a get request to free-proxy-list.net, and scrapes the page for IP+port of elite type proxies that support https. Returns a list of IP addresses.
+    '''
+    # set the url for the GET request
     url_base = 'https://free-proxy-list.net/'
+    # randomize the user agent sent with request
     real_user_agent = ua.random
+    # structure request header
     headers = {'User-Agent': real_user_agent}
+    # makes a GET request from the url, and saves it as a bs4 object
     soup = BeautifulSoup(requests.get(url_base,
-                                           headers=headers).text,
-                              'html.parser')
+                                      headers=headers).text,
+                         'html.parser')
+    # Within the soup, gets each row in the table where proxies are listed
     rows=[]
     for row in soup.findAll("tr"):
         rows.append(row)
+    
+    # For each row in the table, find the ones that have elite proxy tags and 'Yes' to the https column
     valid_ips = []
     for row in rows:
         i = row.findAll('td')
         try:
             if i[4].text == 'elite proxy' and i[6].text == 'yes':
+                # Append each valid IP to a list
                 valid_ips.append(i[0].text + ':' + i[1].text)
         except:
             continue
+    # return the valid ip addresses
     return valid_ips
