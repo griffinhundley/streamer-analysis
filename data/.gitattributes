@@ -4,3 +4,5 @@ sample_data.csv filter=lfs diff=lfs merge=lfs -text
 second_random_sample.csv filter=lfs diff=lfs merge=lfs -text
 streamer-list filter=lfs diff=lfs merge=lfs -text
 streamer_data.csv filter=lfs diff=lfs merge=lfs -text
+parsed_soup_raw_2.csv filter=lfs diff=lfs merge=lfs -text
+streamer_data_2.csv filter=lfs diff=lfs merge=lfs -text
