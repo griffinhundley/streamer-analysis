@@ -100,7 +100,7 @@ In the figures above, this model performs the best of all the iterations. The re
 
 ## Conclusions
 
-This model performs very well at being selective. Although it suffers a bit with a 60% hit rate on partnered channels, because denied applications can reapply at a later point, its not a permanent decision, where in the reverse case, giving a stream partnership is usually permanent. Twitch currently approves ~5k partners per year. Assuming they accept 5% of applications that would mean they receieve 100K applications per year, spending 2-4 weeks reviewing each one. This model would greatly reduce the amount staff resources. In addition, because it is a model based on continuous data, it does not have the same personal biases that humans do, leading to a fairer assessment of partners.
+This model performs very well at being selective. Although it suffers a bit with a 60% hit rate on partnered channels, because denied applications can reapply at a later point, it's not a permanent decision, where in the reverse case, giving a stream partnership is usually permanent. Twitch currently approves ~5k partners per year. Assuming they accept 5% of applications that would mean they receieve 100K applications per year, spending 2-4 weeks reviewing each one. This model would greatly reduce the amount staff resources. In addition, because it is a model based on continuous data, it does not have the same personal biases that humans do, leading to a fairer assessment of partners.
 
 ## Next Steps
 
@@ -115,8 +115,11 @@ I didn't have time in this analysis to get data from Twitch on how many partners
 ## Contact Information
 
 Griffin Hundley
+
 Email: hundlegq@dukes.jmu.edu
+
 Github: github.com/griffinhundley
+
 Linkedin: linkedin.com/in/griffin-hundley-61b020118/
 
 
@@ -125,7 +128,7 @@ Linkedin: linkedin.com/in/griffin-hundley-61b020118/
 ```
 ├── README.md                           <- The top-level README for reviewers of this project
 ├── notebooks                           <- Narrative documentation of analysis in Jupyter notebook
-├── models.                             <- .h5 files that contain the iterations of the modeling process
+├── models                              <- .h5 files that contain the iterations of the modeling process
 ├── src                                 <- directory containing source code
 │   ├── __init__.py                     <- .py file that signals to python these folders contain packages
 │   ├── modeling.py                     <- .py code used in the modeling process
