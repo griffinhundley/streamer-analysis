@@ -5,13 +5,31 @@
 
 ![](images/twitch-generic-email-1-1-1-1.jpg)
 
+## Repository Structure
+
+```
+├── README.md                           <- The top-level summary of project
+├── PDF                                 <- PDF versions of readme, final notebook, and presentations
+├── notebooks                           <- Narrative documentation of analysis in Jupyter notebook
+│   └── final-notebook.ipynb            <- Final notebook
+├── models                              <- .h5 files that contain the iterations of the modeling process
+├── src                                 <- directory containing source code
+│   ├── __init__.py                     <- .py file that signals to python these folders contain packages
+│   ├── modeling.py                     <- .py code used in the modeling process
+│   └── scraping.py                     <- .py code used to obtain data from Twitch API and other sources
+├── data                                <- Sourced from Twitch API and Twitchtracker
+└── images                              <- Sourced externally and generated from code
+```
+
 ## Overview
 
 Twitch is a social platform for livestreaming video games, music, art, and more.  For most people making content on the platform, livestreaming started out as a hobby for people sharing their love of gaming - something they do only because its fun.  For a select few who build a strong community and gain a larger audience, they can turn their channel into a primary source of income by becoming a partner with Twitch.
 
-Being a partner has a lot of perks, but also a few restrictions.  Partners get a subscription button added to their channel, where viewers can pay $5 for 1 month access to subscriber-only emotes, no advertisements, and channel specific rewards.  Partners also get a share of the ad revenue for ads ran on their channel.  As part of the contract that partners sign, they cannot livestream on other platforms.
+Being a partner has a lot of perks, but also a few restrictions.  Partners get a subscription button added to their channel, where viewers can pay $5 for 1 month access to subscriber-only emotes, don't have to watch advertisements, and receive channel specific rewards.  Partners also get a share of the revenue for ads ran on their channel.  As part of the contract that partners sign, they cannot livestream on other platforms.
 
-As of February 2020, there are 3.8 million unique broadcasters on the website, with an average of 56,000 concurrent broadcasters, and 1.44 million concurrent viewers at a given time.  Of those 3.8 million broadcasters, there are roughly 41,000 partners. Source: Mansoor Iqbal https://www.businessofapps.com/data/twitch-statistics/
+As of February 2020, there are 3.8 million unique broadcasters on the website, with an average of 56,000 concurrent broadcasters, and 1.44 million concurrent viewers at a given time.  Of those 3.8 million broadcasters, there are roughly 41,000 partners. 
+
+Source: Mansoor Iqbal https://www.businessofapps.com/data/twitch-statistics/
 
 ***
 
@@ -21,13 +39,13 @@ As of February 2020, there are 3.8 million unique broadcasters on the website, w
 
 Source: Mansoor Iqbal https://www.businessofapps.com/data/twitch-statistics/
 
-Livestreaming is emerging as a premiere online industry, with significant growth over the years.  As of December 2020, the effects of COVID are still being realized, however there are reports of 24-50% increase in Twitch viewership as a result of the pandemic lockdowns.
+Livestreaming is emerging as a premiere online industry, with significant growth over the years.  As of December 2020, the effects of COVID are still being realized, however there are reports of 24-50% increase in Twitch viewership as a result of the pandemic lockdowns (T. Wilde).
 
 Online entertainment isn't going anywhere but up.  As a result of increasing scale, more online companies must rely on automated systems.  For example - Twitch competitors Youtube Live and Facebook Gaming use automated systems to detect copywrite infringment and obscene content.  As the number of broadcasters and viewers continues to rise, and as the entertainment industry shifts more online, the number of people turning to livestreaming as a source of income increases.  
 
-Applications for partnership are currently reviewed manually by Twitch staff, with applicants waiting 2-4 weeks to get results.  Because partnership is approved manually by different individuals, there can be a personal selective bias towards or against certain demographics.  In some cases, very successful streamers with well above average metrics have been denied partnership, while much smaller channels are approved, leading to distrust between the broadcaster and Twitch.  
+Applications for partnership are currently reviewed manually by Twitch staff, with applicants waiting 2-4 weeks to get results (Twitch FAQ).  Because partnership is approved manually by different individuals, there can be a personal selective bias towards or against certain demographics.  In some cases, very successful streamers with well above average metrics have been denied partnership, while much smaller channels are approved, leading to distrust between the broadcaster and Twitch.  
 
-The goal of this analysis is to provide a model that can approve or deny channels for partnership based on their channel metrics, removing the need for manual review, which frees up resources, decreases feedback time to streamers on the status of their partnership application, and having a system without personal influences.  Additionally, the nature of the model allows for dynamically adjusting the threshold for approval, to make it more or less strict depending on the needs of Twitch.
+The goal of this analysis is to provide a model that can approve or deny channels for partnership based on their channel metrics, removing the need for manual review, which frees up resources, decreases feedback time to streamers on the status of their partnership application, and having a system without personal bias.  Additionally, the nature of the model allows for dynamically adjusting the threshold for approval, to make it more or less strict depending on the needs of Twitch.
 
 Source: Thomas Wilde https://www.geekwire.com/2020/twitch-sets-audience-record-october-pandemic-continues-fuel-livestreaming-growth/
 
@@ -84,33 +102,40 @@ Additionally, Twitch makes a distinction between 'natural' views and views gaine
 
 ## Methods
 
-Describe the process for analyzing or modeling the data. For Phase 1, this will be descriptive analysis.
+To begin the modeling process, the training data is loaded in and split into a 80% training set and a 20% validation set.  The data is normalized with StandardScaler to reduce the distance between points, allowing for clusters within the data to be spotted more easily, and to reduce exploding/vanishing weights causing the model to diverge.  Model architecture will be fit on the training data, using validation data to diagnose the bias-variance relationship.  In each iteration, the metrics and level of overfitting will be examined.  In subsequent iterations, dropout will be used as the primary regularization method in order to achieve a generalizable model. The method of compiling will use adaptive moment estimation with a learning rate of 0.00001 for the optimization function, and because this is a binary classification, the loss function will be binary crossentropy.  The model is fit with minibatches of size 32, over 100 epochs.
 
-***
-Questions to consider:
-* How did you prepare, analyze or model the data?
-* Why is this approach appropriate given the data and the business problem?
-***
+### Model Selection 
+
+Once the performance of the models plateau, the best performing model will be used to predict on the holdout data set. The scores being examined will be f1, accuracy, recall, and precision. The final selected model will be one that achieves a high precision for a specific threshold of the sigmoid output. Precision is the key metric, with the goal of minimizing false positives. In this situation, due to the automated nature of this partnership approval model, it should be stricter than it is lenient in regards to classifying a channel as a partner. We do not want the model to incorrectly assign channels partnership, because partnership is usually permanent, while denied applications can be resubmitted after a month.
 
 ## Results
 ![](./images/model_4_performance.png)
 
 In the figures above, this model performs the best of all the iterations. The reduction in complexity, as well as the dropout regularization, has the model consistently perform better on the validation set than on the training set indicating high generalizability. Additionally, the extreme amounts of fluctuations over epochs seems to have been smoothed out considerably.
 
+***
 
 ## Conclusions
 
-This model performs very well at being selective. Although it suffers a bit with a 60% hit rate on partnered channels, because denied applications can reapply at a later point, it's not a permanent decision, where in the reverse case, giving a stream partnership is usually permanent. Twitch currently approves ~5k partners per year. Assuming they accept 5% of applications that would mean they receieve 100K applications per year, spending 2-4 weeks reviewing each one. This model would greatly reduce the amount staff resources. In addition, because it is a model based on continuous data, it does not have the same personal biases that humans do, leading to a fairer assessment of partners.
+This model performs very well at being selective with a specificity of 0.998 and a precision of .92.  Although it suffers a bit with a 57% hit rate on partnered channels, because denied applications can reapply at a later point, it's not a permanent decision, where in the reverse case, giving a stream partnership is usually permanent.  When a channel is denied, they have as many chances as they need to take time to build their channel, and reapply with a better chance of success.
+
+Twitch currently approves ~5k partners per year.  Assuming they accept 5% of applications that would mean they receieve 100K applications per year, spending 2-4 weeks reviewing each one.  With the number of streamers doubling every few years, and with previously denied applicants constantly resubmitting applications, this number will continue to pile up. This model would greatly reduce the amount staff resources spent on reviewing those applications.  In addition, because it is a model based on continuous data, it does not have the same personal biases that humans do, leading to a fairer metric based assessment of partners.  
+
+As the needs of twitch change over time, perhaps twitch will want to increase or decrease the number of partners admitted.  In this case, the model can be implemented with a lower or higher threshold respectively to change the 'strictness'.
+
+One serious flaw however, is this model fails to account for chat participation and interaction, and does not assess individual character/behavior to identify if a streamer is a brand risk or poor representitive of the company.  A widely popular streamer who constantly brings negative attention to the platform, for example, might not be a wise choice to partner.  To address this concern, this model could be used in conjunction with another classifier model that specifically looks at chat interaction to detect negativity and brand risk.
+
+***
 
 ## Next Steps
 
-Moving forward I would like to address the assumptions made with the data. If I had access to Twitch's data that excludes artifical views, and can target historical data at the time of partnership, the model would likely be much more accurate at predicting the partner class.
+Moving forward I would like to address the assumptions made with the data.  If I had access to Twitch's data that excludes artifical views, and can target historical data at the time of partnership, the model would likely be much more accurate at predicting the partner class.
 
-Additionally, expanding the amount of data collection is a logical next step. In this analysis only 4% of the total partners were included in the dataset.
+Additionally, expanding the amount of data collection is a logical next step.  In this analysis only 4% of the total partners were included in the dataset.
 
-Twitch currently uses chat activity as an important metric when deciding partnership. Getting data on chat participation and activity would thus be a good next step to take.
+Twitch currently uses chat activity as an important metric when deciding partnership.  Getting data on chat participation and activity would thus be a good next step to take.
 
-I didn't have time in this analysis to get data from Twitch on how many partnership applications they receive.
+***
 
 ## Contact Information
 
@@ -122,17 +147,4 @@ Github: github.com/griffinhundley
 
 Linkedin: linkedin.com/in/griffin-hundley-61b020118/
 
-
-## Repository Structure
-
-```
-├── README.md                           <- The top-level README for reviewers of this project
-├── notebooks                           <- Narrative documentation of analysis in Jupyter notebook
-├── models                              <- .h5 files that contain the iterations of the modeling process
-├── src                                 <- directory containing source code
-│   ├── __init__.py                     <- .py file that signals to python these folders contain packages
-│   ├── modeling.py                     <- .py code used in the modeling process
-│   └── scraping.py                     <- .py code used to obtain data from Twitch API and other sources
-├── data                                <- Sourced from Twitch API and Twitchtracker
-└── images                              <- Sourced externally and generated from code
-```
+***
