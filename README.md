@@ -107,10 +107,20 @@ Finally, the unpartnered class is assumed to be vying for partnership. Twitch re
 ## Exploratory Data Analysis
 
 ![](images/account_age_distplot.png)
+
+The figure above shows the frequency distribution of account ages of Twitch streamers. In blue is unpartnered accounts, and orange is partnered accounts. The account ages range from 60 days old to ~5000 days old. On average, unpartnered accounts are slightly younger than partnered accounts.
+
 ![](images/days_of_activity_distplot.png)
+
+In the figure above is the distribution of streamers days of activity (the number of total days during which that streamer went live). The range is 0 to ~1500 days. In blue is unpartnered accounts, and in orange is partnered accounts. The peak for unpartnered accounts is much lower and sharper, meaning many more unpartnered streamers are less active compared to the partnered streamers, who stream more consistently over a longer period of time.
+
 ![](images/active_days_per_week_distplot.png)
+
+The figure above shows the distribution of active days per week (the average number of days in a 7 day period where a streamer goes live). In the blue, we see that the unpartnered streamer class exhibits a right tailed distribution that peaks closer to 1 day per week, while the partnered streamer class exhibits a left tailed distribution, peaking around 4 days per week.
+
 ![](images/daily_broadcast_time_vs_average_viewers_scatterplot.png)
 
+The figure above is a scatter plot showing the average viewers for average daily broadcast time.  The highest average viewer counts exist for streamers that average around 4-7 hours of broadcast time per day.  Additionally, the highest viewer counts appear to be held by partnered streams.
 
 ***
 
